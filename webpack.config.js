@@ -1,5 +1,10 @@
 const path = require('path');
-const HtmlWebpackPlugin = require('html-webpack-plugin');
+const AfterCompilerWebpackPlugin=require('./src/plugins/after-compiler-webpack-plugin');
+const CompilerWebpackPlugin=require('./src/plugins/compiler-webpack-plugin');
+const DoneWebpackPlugin=require('./src/plugins/done-webpack-plugin');
+const EmitWebpackPlugin=require('./src/plugins/emit-webpack-plugin');
+const OptionWebpackPlugin=require('./src/plugins/option-webpack-plugin.js');
+const RunWebpackPlugin = require('./src/plugins/run-webpack-plugin');
 module.exports = {
     entry: './src/index.js',
     output: {
@@ -9,32 +14,17 @@ module.exports = {
     module:{
         rules:[
             {
-                test:/.js$/,
-                include: path.resolve('src'),
-                exclude:/node_modules/,
-                use:{
-                    loader:'babel-loader',
-                    options: {
-                        presets:[
-                            "env","stage-0","react"
-                        ]
-                    }
-                }
-            },
-            {
-                test:/\.css/,
-                use:['style-loader','css-loader']
-            },
-            {
-                test:/\.(jpg|png|gif)$/,
-                use:['style-loader','css-loader']
+                test:/\.less/,
+                use:['style-loader','less-loader']
             }
         ]
     },
     plugins:[
-        new HtmlWebpackPlugin({
-            template:'./src/index.html',
-            filename:'index.html'
-        })
+        new AfterCompilerWebpackPlugin(),
+        new CompilerWebpackPlugin(),
+        new DoneWebpackPlugin(),
+        new EmitWebpackPlugin(),
+        new OptionWebpackPlugin(),
+        new RunWebpackPlugin()
     ]
 }

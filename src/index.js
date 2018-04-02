@@ -1,2 +1,3 @@
-let name = require('./moduleA');
-console.log(name);
+let name=require('./a/a1');
+require('./index.less');
+alert(name);
